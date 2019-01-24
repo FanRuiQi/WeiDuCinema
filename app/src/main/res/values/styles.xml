@@ -8,4 +8,8 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="My_CheckBox" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="colorControlActivated">@color/colorPrimary</item>
+        <item name="colorControlNormal">#fff</item>
+    </style>
 </resources>
