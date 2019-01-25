@@ -1,6 +1,7 @@
 package com.bw.movie.general.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,6 +12,8 @@ import com.bw.movie.R;
 public class MainActivity extends AppCompatActivity {  //欢迎页
 
     private int t=3;
+    boolean start;
+    private SharedPreferences mPreferences;
 
     Handler handler=new Handler(){
         @Override
@@ -20,7 +23,12 @@ public class MainActivity extends AppCompatActivity {  //欢迎页
             t=0;
             if (t==0){
                 handler.removeMessages(1);
-                startActivity(new Intent(MainActivity.this,GuideActivity.class));
+                if (start){
+                    startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                }else {
+                    startActivity(new Intent(MainActivity.this,GuideActivity.class));
+                }
+
 
             }
             handler.sendEmptyMessageDelayed(1,2000);
@@ -32,8 +40,16 @@ public class MainActivity extends AppCompatActivity {  //欢迎页
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mPreferences = getSharedPreferences("swl", MODE_PRIVATE);
 
+        start = mPreferences.getBoolean("start", false);
         handler.sendEmptyMessageDelayed(1,2000);
+
+
+        SharedPreferences.Editor edit = mPreferences.edit();
+        edit.putBoolean("start",true);
+        edit.commit();
+
 
     }
 

@@ -3,7 +3,7 @@ package com.bw.movie;
 /**
  * Author: 范瑞旗
  * Date: 2019/1/24 14:33
- * Description: ${DESCRIPTION}
+ * Description: 全局接口类
  */
 public class Apis {
 

@@ -1,11 +1,14 @@
 package com.bw.movie.base;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.bw.movie.R;
+import com.bw.movie.custom.Loading_view;
 import com.bw.movie.precenter.IPrecenterImpl;
 import com.bw.movie.view.IView;
 
@@ -19,10 +22,13 @@ import java.util.Map;
 
 public abstract class BaseActivity extends AppCompatActivity implements IView{
     private IPrecenterImpl mPrecenter;
+    Loading_view loading;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getContent());
+
+        mPrecenter = new IPrecenterImpl(this);
         initView();
         initData();
     }
@@ -35,7 +41,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IView{
         Log.e(context,dataString);
     }
 
-    public void setStartActivity(Class isClass,boolean isboolean){
+    /*public void setStartActivity(Class isClass,boolean isboolean){
         isStartActivity(isClass,isboolean);
     }
 
@@ -45,9 +51,19 @@ public abstract class BaseActivity extends AppCompatActivity implements IView{
         }else {
 
         }
-    }
+    }*/
 
     public void doNetRequestData(String url, Map<String, String> map, Class clazz, String type){
+
+        loading = new Loading_view(this,R.style.CustomDialog);
+        loading.show();
+        new Handler().postDelayed(new Runnable() {//定义延时任务模仿网络请求
+            @Override
+            public void run() {
+                loading.dismiss();//3秒后调用关闭加载的方法
+            }
+        }, 3000);
+
 
         mPrecenter.startRequestData(url,map,clazz,type);
     }
