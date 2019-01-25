@@ -16,6 +16,7 @@ import com.bw.movie.Apis;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivity;
 import com.bw.movie.bean.LoginBean;
+import com.bw.movie.bean.RegisterBean;
 import com.bw.movie.precenter.IPrecenterImpl;
 import com.bw.movie.util.EncryptUtil;
 
@@ -108,6 +109,7 @@ public class LoginActivity extends BaseActivity{
 
             doNetRequestData(Apis.URL_LOGIN,map,LoginBean.class,"post");
 
+          //  mIPrecenter.startRequestData(Apis.URL_LOGIN,map,LoginBean.class,"post");
         }
     }
 
@@ -130,9 +132,8 @@ public class LoginActivity extends BaseActivity{
     @Override
     public void success(Object data) {
 
-        Log.e("data",data+"");
-        Toast.makeText(LoginActivity.this,"su",Toast.LENGTH_SHORT).show();
         LoginBean loginBean = (LoginBean) data;
+
         String message = loginBean.getMessage();
         if (message.equals("登陆成功")){
             if (mCheckBox_rememberPwd.isChecked()){  //保存账号密码
@@ -168,12 +169,10 @@ public class LoginActivity extends BaseActivity{
             edit.putString("nickName",nickName);
             edit.commit();
 
-            startActivity(new Intent(LoginActivity.this,HomeActivity.class));
+            //startActivity(new Intent(LoginActivity.this,HomeActivity.class));
             Toast.makeText(LoginActivity.this,R.string.login_success_toast,Toast.LENGTH_SHORT).show();
-            //showShortToast(R.string.login_success_toast+"");
         }else {
             Toast.makeText(LoginActivity.this,R.string.login_fail_toast,Toast.LENGTH_SHORT).show();
-            //showShortToast(R.string.login_fail_toast+"");
         }
 
     }

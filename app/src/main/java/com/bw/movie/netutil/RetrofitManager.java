@@ -6,13 +6,16 @@ import android.text.TextUtils;
 
 import com.bw.movie.application.BaseApplication;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -64,6 +67,8 @@ public class RetrofitManager {
                 if (!TextUtils.isEmpty(userId) && !TextUtils.isEmpty(sessionId)){
                     newBuilder.addHeader("userId",userId);
                     newBuilder.addHeader("sessionId",sessionId);
+                    newBuilder.addHeader("ak","0110010010000");
+                    newBuilder.addHeader("Content-Type","application/x-www-form-urlencoded");
                 }
                 //打包
                 Request request = newBuilder.build();
@@ -115,22 +120,39 @@ public class RetrofitManager {
     }
 
 
-
-
     /**
      * 表单post请求
      */
-    public void postFormBody(String url, Map<String, RequestBody> map,HttpListener listener) {
-        if (map == null) {
-            map = new HashMap<>();
+    public void postFormBodyObject(String url, Map<String,Object> params, List<Object> list, HttpListener listener){
+
+        MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+        if (list.size()==1) {
+            for (int i = 0; i < list.size(); i++) {
+                File file = new File((String) list.get(i));
+                builder.addFormDataPart("image", file.getName(),RequestBody.create(MediaType.parse("multipart/octet-stream"),file));
+            }
         }
 
-        baseApis.postFormBody(url, map)
+       /* baseApis.Image(url,params,builder.build())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getObserver(listener));
-
+                .subscribe(getObserver(listener));*/
     }
+
+
+
+//
+//    public void postFormBody(String url, Map<String, RequestBody> map,HttpListener listener) {
+//        if (map == null) {
+//            map = new HashMap<>();
+//        }
+//
+//        baseApis.postFormBody(url, map)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(getObserver(listener));
+//
+//    }
 
     /**
      * 普通post请求
