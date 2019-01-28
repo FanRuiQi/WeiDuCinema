@@ -52,9 +52,9 @@ public class LoginActivity extends BaseActivity{
 
     @BindView(R.id.login_btn_login)          //登录按钮
     Button mButton_login;
-    private boolean b=true;
-    private IPrecenterImpl mIPrecenter;
+
     private SharedPreferences mPreferences;
+    boolean check;
 
     @Override
     public void initView() {
@@ -66,11 +66,10 @@ public class LoginActivity extends BaseActivity{
 
         ButterKnife.bind(this);
 
-        mIPrecenter = new IPrecenterImpl(this);
 
         mPreferences = getSharedPreferences("swl", MODE_PRIVATE);
 
-        boolean check = mPreferences.getBoolean("check", false);
+        check = mPreferences.getBoolean("check", false);
         boolean auto = mPreferences.getBoolean("auto", false);
         String String_phone = mPreferences.getString("phone", null);
         String String_pwd = mPreferences.getString("pwd", null);
@@ -83,6 +82,17 @@ public class LoginActivity extends BaseActivity{
             startActivity(new Intent(LoginActivity.this,HomeActivity.class));
         }
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (check){
+            String String_phone = mPreferences.getString("phone", null);
+            String String_pwd = mPreferences.getString("pwd", null);
+            mTextView_phone.setText(String_phone);
+            mTextView_pwd.setText(String_pwd);
+        }
     }
 
     @Override
@@ -111,6 +121,12 @@ public class LoginActivity extends BaseActivity{
 
           //  mIPrecenter.startRequestData(Apis.URL_LOGIN,map,LoginBean.class,"post");
         }
+    }
+
+    @OnClick(R.id.login_text_register)
+    public void onTextRegister(){
+
+        startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
     }
 
     @OnTouch(R.id.login_img_show)            //明文密文
@@ -171,6 +187,7 @@ public class LoginActivity extends BaseActivity{
 
             //startActivity(new Intent(LoginActivity.this,HomeActivity.class));
             Toast.makeText(LoginActivity.this,R.string.login_success_toast,Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(LoginActivity.this,SuccessActivity.class));
         }else {
             Toast.makeText(LoginActivity.this,R.string.login_fail_toast,Toast.LENGTH_SHORT).show();
         }
@@ -179,14 +196,7 @@ public class LoginActivity extends BaseActivity{
 
     @Override
     public void fail(String error) {
-        Toast.makeText(LoginActivity.this,"fa",Toast.LENGTH_SHORT).show();
-        //showShortToast(R.string.not_NetWork+"");
-        Toast.makeText(LoginActivity.this,error,Toast.LENGTH_SHORT).show();
+
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mIPrecenter.onDetach();
-    }
 }

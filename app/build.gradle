@@ -43,4 +43,6 @@ dependencies {
     implementation "io.reactivex:rxjava:$rootProject.rxjava"
     implementation "com.hwangjr.rxbus:rxbus:$rootProject.rxbus"
     implementation "com.squareup.retrofit2:adapter-rxjava:$rootProject.adapterRxjava"
+    implementation 'com.chenlittleping:recyclercoverflow:1.0.6'
+
 }

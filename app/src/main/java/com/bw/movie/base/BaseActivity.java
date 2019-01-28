@@ -41,28 +41,16 @@ public abstract class BaseActivity extends AppCompatActivity implements IView{
         Log.e(context,dataString);
     }
 
-    /*public void setStartActivity(Class isClass,boolean isboolean){
-        isStartActivity(isClass,isboolean);
-    }
-
-    public void isStartActivity(Class isClass, boolean isboolean) {
-        if (isboolean){
-
-        }else {
-
-        }
-    }*/
-
     public void doNetRequestData(String url, Map<String, String> map, Class clazz, String type){
 
         loading = new Loading_view(this,R.style.CustomDialog);
         loading.show();
-        new Handler().postDelayed(new Runnable() {//定义延时任务模仿网络请求
+        /*new Handler().postDelayed(new Runnable() {//定义延时任务模仿网络请求
             @Override
             public void run() {
                 loading.dismiss();//3秒后调用关闭加载的方法
             }
-        }, 3000);
+        }, 3000);*/
 
 
         mPrecenter.startRequestData(url,map,clazz,type);
@@ -75,14 +63,22 @@ public abstract class BaseActivity extends AppCompatActivity implements IView{
 
     @Override
     public void onSuccess(Object data) {
+        loading.dismiss();
         success(data);
     }
 
     @Override
     public void onFail(String error) {
+        Toast.makeText(BaseActivity.this,R.string.not_NetWork,Toast.LENGTH_SHORT).show();
         fail(error);
     }
 
     public abstract void success(Object data);
     public abstract void fail(String error);
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPrecenter.onDetach();
+    }
 }

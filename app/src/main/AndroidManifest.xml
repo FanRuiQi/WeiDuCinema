@@ -20,6 +20,10 @@
         </activity>
         <activity android:name=".general.activity.GuideActivity"/>
         <activity android:name=".general.activity.LoginActivity"/>
+        <activity android:name=".general.activity.RegisterActivity"/>
+        <activity android:name=".general.activity.SuccessActivity"/>
+        <activity android:name=".cinema.fragment.activity.CinemaDetailActivity"/>
+        <activity android:name=".cinema.fragment.activity.CinemaSeatTableActivity"/>
 
     </application>
 

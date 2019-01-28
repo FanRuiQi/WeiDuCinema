@@ -30,7 +30,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class RetrofitManager {
-    private final String BASE_URL = "http://172.17.8.100/movieApi/user/v1/";
+    private final String BASE_URL = "http://172.17.8.100/movieApi/";
     private static RetrofitManager instance;
 
     public static synchronized RetrofitManager getInstance() {
@@ -64,11 +64,11 @@ public class RetrofitManager {
                 //把原来请求的原样参数放进去
                 newBuilder.method(original.method(),original.body());
                 //添加特殊的userId,sessionId
+                newBuilder.addHeader("ak","0110010010000");
+                newBuilder.addHeader("Content-Type","application/x-www-form-urlencoded");
                 if (!TextUtils.isEmpty(userId) && !TextUtils.isEmpty(sessionId)){
                     newBuilder.addHeader("userId",userId);
                     newBuilder.addHeader("sessionId",sessionId);
-                    newBuilder.addHeader("ak","0110010010000");
-                    newBuilder.addHeader("Content-Type","application/x-www-form-urlencoded");
                 }
                 //打包
                 Request request = newBuilder.build();
